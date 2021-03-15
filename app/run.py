@@ -43,6 +43,16 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
 
+    # let's calculate distribution of classes with 1
+    class_distr1 = df.drop(['id', 'message', 'original', 'genre'], axis = 1).sum()/len(df)
+
+    #sorting values in ascending
+    class_distr1 = class_distr1.sort_values(ascending = False)
+
+    #series of values that have 0 in classes
+    class_distr0 = (class_distr1 -1) * -1
+    class_name = list(class_distr1.index)
+
     # create visuals
 
     graphs = [
@@ -51,7 +61,7 @@ def index():
                 Bar(
                     x=genre_names,
                     y=genre_counts
-                )
+                ),
             ],
 
             'layout': {
@@ -62,6 +72,37 @@ def index():
                 'xaxis': {
                     'title': "Genre"
                 }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=class_name,
+                    y=class_distr1,
+                    name='Class = 1'
+                    # orientation = 'h'
+                ),
+                Bar(
+                    x=class_name,
+                    y=class_distr0,
+                    name='Class = 0',
+                    marker=dict(
+                        color='rgb(212, 228, 247)'
+                    )
+                    # orientation = 'h'
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of labels within classes',
+                'yaxis': {
+                    'title': "Distribution"
+                },
+                'xaxis': {
+                    'title': "Class",
+                    #        'tickangle': -45
+                },
+                'barmode': 'stack'
             }
         }
     ]
