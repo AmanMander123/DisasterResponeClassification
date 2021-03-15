@@ -1,4 +1,4 @@
-## Disaster Response ETL, Machine Learning Pipeline + Flask Web App
+# Disaster Response ETL, Machine Learning Pipeline + Flask Web App
 
 ## Motivation
 The purpose of this app is to classify disaster related messages. A machine learning model is used to aid an emergency worker in classifying an input message.
