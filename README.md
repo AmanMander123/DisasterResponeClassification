@@ -1,1 +1,1 @@
-# DisasterResponeClassification
+# Disaster Response Classification
