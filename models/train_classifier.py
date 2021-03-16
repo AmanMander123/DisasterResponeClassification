@@ -16,6 +16,11 @@ from sklearn.model_selection import GridSearchCV
 import pickle
 
 def load_data(database_filepath):
+    '''
+    Function to read in data from the SQLite database
+    :param database_filepath: path to SQLite database
+    :return: features, targets and list of categories
+    '''
     # load data from database
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('DisasterResponse', engine)
@@ -26,6 +31,11 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    '''
+    Function to convert raw text to a cleaned tokens
+    :param text: raw text
+    :return: cleaned tokens
+    '''
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -38,6 +48,10 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    Function to build machine learning pipeline
+    :return: machine learning pipeline
+    '''
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
@@ -53,6 +67,14 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    '''
+    Function to output evaluation metrics
+    :param model: model name
+    :param X_test: test features
+    :param Y_test: test targets
+    :param category_names: list of category names
+    :return: prints evaluation metrics
+    '''
     y_pred = model.predict(X_test)
     print(classification_report(y_true=pd.DataFrame(Y_test, columns=category_names),
                                 y_pred=pd.DataFrame(y_pred, columns=category_names),
@@ -60,6 +82,12 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    '''
+    Function to save model as pickle file
+    :param model: model name
+    :param model_filepath: path to output model file
+    :return: None
+    '''
     pickle.dump(model, open(model_filepath, 'wb'))
 
 

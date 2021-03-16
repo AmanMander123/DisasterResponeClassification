@@ -15,6 +15,11 @@ app = Flask(__name__)
 
 
 def tokenize(text):
+    '''
+    Function to convert raw text to a cleaned tokens
+    :param text: raw text
+    :return: cleaned tokens
+    '''
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
