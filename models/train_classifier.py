@@ -43,18 +43,20 @@ def build_model():
         ('tfidf', TfidfTransformer()),
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
-    #parameters = {
-    #    'clf__estimator__n_estimators': [50],
-    #    'clf__estimator__min_samples_split': [2],
-    #}
-    #cv = GridSearchCV(pipeline, param_grid=parameters)
+    parameters = {
+        'clf__estimator__n_estimators': [40,50,60],
+        'clf__estimator__min_samples_split': [2,4,6],
+    }
+    cv = GridSearchCV(pipeline, param_grid=parameters)
 
-    return pipeline
+    return cv
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
     y_pred = model.predict(X_test)
-    print(classification_report(y_true=pd.DataFrame(Y_test, columns=category_names), y_pred=pd.DataFrame(y_pred, columns=category_names),target_names=category_names))
+    print(classification_report(y_true=pd.DataFrame(Y_test, columns=category_names),
+                                y_pred=pd.DataFrame(y_pred, columns=category_names),
+                                target_names=category_names))
 
 
 def save_model(model, model_filepath):
