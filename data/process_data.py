@@ -45,6 +45,8 @@ def clean_data(df):
     df.drop(['categories'], axis=1, inplace=True)
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories], axis=1)
+    # drop non-binary columns
+    df = df[df['related'] != 2]
     # drop duplicates
     df.drop_duplicates(inplace=True)
     return df
@@ -59,7 +61,7 @@ def save_data(df, database_filename):
     '''
     # save the clean dataset into an sqllite database
     engine = create_engine('sqlite:///'+database_filename)
-    df.to_sql('DisasterResponse', engine, index=False)
+    df.to_sql('DisasterResponse', engine, index=False, if_exists='replace')
 
 
 def main():

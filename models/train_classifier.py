@@ -24,7 +24,6 @@ def load_data(database_filepath):
     # load data from database
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('DisasterResponse', engine)
-    df = df[df['related'] != 2]
     X = df['message']
     Y = df.iloc[:, 4:]
     return X, Y, Y.columns.values
